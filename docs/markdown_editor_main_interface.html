@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Markdown Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetics in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden selection:bg-primary/30">
+<!-- Header -->
+<header class="flex items-center justify-between px-6 py-3 border-b border-slate-200 dark:border-[#233648] bg-white dark:bg-[#111a22] shrink-0 z-20">
+<div class="flex items-center gap-6">
+<!-- Logo area -->
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">markdown</span>
+</div>
+<h1 class="hidden md:block text-lg font-bold tracking-tight text-slate-900 dark:text-white">MD Editor</h1>
+</div>
+<!-- Document Title Input -->
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-[#233648] mx-2 hidden sm:block"></div>
+<div class="flex flex-col justify-center">
+<input class="bg-transparent border-none p-0 h-auto text-sm font-medium focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 w-64 hover:bg-slate-100 dark:hover:bg-[#1a2632] rounded px-2 -ml-2 transition-colors" type="text" value="Productivity_App_Design_Spec.md"/>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 px-2 -ml-2">Last saved 2 mins ago</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-1 text-slate-600 dark:text-[#92adc9]">
+<button class="px-3 py-1.5 text-sm font-medium hover:bg-slate-100 dark:hover:bg-[#1a2632] rounded-lg transition-colors">File</button>
+<button class="px-3 py-1.5 text-sm font-medium hover:bg-slate-100 dark:hover:bg-[#1a2632] rounded-lg transition-colors">Edit</button>
+<button class="px-3 py-1.5 text-sm font-medium hover:bg-slate-100 dark:hover:bg-[#1a2632] rounded-lg transition-colors">View</button>
+</div>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-[#233648] hidden md:block"></div>
+<button class="flex items-center justify-center h-9 px-4 rounded-lg bg-slate-100 dark:bg-[#233648] text-slate-700 dark:text-white text-sm font-medium hover:bg-slate-200 dark:hover:bg-[#324d67] transition-colors">
+                Export
+            </button>
+<button class="flex items-center justify-center h-9 px-4 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-sm shadow-blue-900/20 transition-colors">
+                Share
+            </button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ml-2 border border-slate-200 dark:border-[#233648]" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAakVpkU7Wmi7D6pDdPRWGH8IlKqXKT5IZ2qCg-GaqgVm6jE_tR1UaZPUIjBEp_eMMwINorCRkKFuCEE7mCfgYE4bVG3PDgFiwn24-_LTmG4UM9K4TMqEjBSg0f79iqbI5gzQmDpSpOcMakWBEA7Kr6D_rJwI68qLPf-3s6Jth-NattFqJltJJ7Wvo6j5jfGs-VhSoZ6JKFV5JExSPZGeG1tKV73utaGuKrRtcSjjsGonQ3Q08qY4EGA7NH1zgBhX2YxDTwRj63LrQ");'></div>
+</div>
+</header>
+<!-- Toolbar -->
+<div class="flex items-center justify-between px-4 py-2 bg-slate-50 dark:bg-[#161b22] border-b border-slate-200 dark:border-[#233648] shrink-0 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max">
+<!-- History -->
+<div class="flex items-center gap-0.5 pr-2 border-r border-slate-200 dark:border-[#233648]">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Undo">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Redo">
+<span class="material-symbols-outlined text-[20px]">redo</span>
+</button>
+</div>
+<!-- Text Styles -->
+<div class="flex items-center gap-0.5 px-2 border-r border-slate-200 dark:border-[#233648]">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Bold">
+<span class="material-symbols-outlined text-[20px]">format_bold</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded bg-slate-200 dark:bg-[#233648] text-primary transition-colors" title="Italic">
+<span class="material-symbols-outlined text-[20px]">format_italic</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Strikethrough">
+<span class="material-symbols-outlined text-[20px]">strikethrough_s</span>
+</button>
+</div>
+<!-- Headers -->
+<div class="flex items-center gap-0.5 px-2 border-r border-slate-200 dark:border-[#233648]">
+<button class="h-8 px-2 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] font-bold text-sm transition-colors">H1</button>
+<button class="h-8 px-2 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] font-bold text-sm transition-colors">H2</button>
+<button class="h-8 px-2 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] font-bold text-sm transition-colors">H3</button>
+</div>
+<!-- Lists & Quote -->
+<div class="flex items-center gap-0.5 px-2 border-r border-slate-200 dark:border-[#233648]">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Bullet List">
+<span class="material-symbols-outlined text-[20px]">format_list_bulleted</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Ordered List">
+<span class="material-symbols-outlined text-[20px]">format_list_numbered</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Blockquote">
+<span class="material-symbols-outlined text-[20px]">format_quote</span>
+</button>
+</div>
+<!-- Insert -->
+<div class="flex items-center gap-0.5 px-2 border-r border-slate-200 dark:border-[#233648]">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Code Block">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Horizontal Rule">
+<span class="material-symbols-outlined text-[20px]">horizontal_rule</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-200 dark:hover:bg-[#233648] text-slate-600 dark:text-[#92adc9] transition-colors" title="Image">
+<span class="material-symbols-outlined text-[20px]">add_photo_alternate</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2 pl-4">
+<button class="flex items-center gap-2 h-8 px-3 rounded text-slate-600 dark:text-[#92adc9] hover:bg-slate-200 dark:hover:bg-[#233648] text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">sync_alt</span>
+<span class="hidden lg:inline">Sync Changes</span>
+</button>
+<button class="flex items-center gap-2 h-8 px-3 rounded bg-slate-200 dark:bg-[#233648] text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-[#324d67] text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span class="hidden lg:inline">Save MD</span>
+</button>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex flex-1 overflow-hidden">
+<!-- Left Pane: Rich Text Editor -->
+<div class="w-1/2 h-full overflow-y-auto bg-white dark:bg-[#111a22] flex flex-col relative group">
+<div class="sticky top-0 z-10 px-8 py-2 bg-white/90 dark:bg-[#111a22]/90 backdrop-blur-sm border-b border-transparent dark:border-transparent group-hover:border-slate-100 dark:group-hover:border-[#233648] transition-colors">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#50667e]">Rich Text</span>
+</div>
+<div class="px-8 md:px-12 pb-20 pt-4 max-w-3xl mx-auto w-full">
+<!-- Content Simulation -->
+<h1 class="text-4xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">Productivity App Design Specification</h1>
+<p class="text-lg text-slate-700 dark:text-slate-300 mb-6 leading-relaxed">
+                    This document outlines the core features and design language for the new desktop productivity suite. The goal is to create a <em class="italic text-slate-900 dark:text-white font-medium">distraction-free environment</em> that empowers users to focus on content creation.
+                </p>
+<div class="my-8 rounded-lg overflow-hidden border border-slate-200 dark:border-[#233648]">
+<div class="bg-slate-100 dark:bg-[#1a2632] h-48 w-full bg-cover bg-center" data-alt="Abstract blue and dark geometric pattern representing modern software design" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7IrFGrVM5ueRYmZoY0Ml-6xyfFFLkRiBwQv8BKXjmosM3bBNu1vHvX8wM9uXSW1VmTZ1nRQbMErPO_dXGeg39i9rd7D1T6vtINPnk8NTAo40EPFBPCZscL9_dXtXUI0man3jAnCpxS399OM_fTRMyPZa6SuJVGB_x7QExtyziDiTGDK0GUgRCQeBiWVHyXvBUHj0Epir7D3PrNMeIZjHxQIhDmUNxq986YzWQxemMSDo8MZCnsxNTCIkvB0K2bEPQ8fAH_f5h5yw");'></div>
+<div class="p-3 bg-slate-50 dark:bg-[#161b22] text-xs text-center text-slate-500">Figure 1.1: Dashboard Concept Art</div>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">1. Key Features</h2>
+<ul class="list-disc list-outside ml-5 mb-6 space-y-2 text-slate-700 dark:text-slate-300">
+<li><strong class="font-semibold text-slate-900 dark:text-white">Real-time Sync:</strong> Seamlessly update content across devices.</li>
+<li><strong class="font-semibold text-slate-900 dark:text-white">Markdown Support:</strong> Full compatibility with standard markdown syntax.</li>
+<li><strong class="font-semibold text-slate-900 dark:text-white">Offline Mode:</strong> Work without an internet connection.</li>
+</ul>
+<blockquote class="border-l-4 border-primary pl-4 my-8 italic text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-[#161b22] py-4 pr-4 rounded-r-lg">
+                    "Design is not just what it looks like and feels like. Design is how it works."
+                </blockquote>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">2. Technical Stack</h2>
+<p class="text-slate-700 dark:text-slate-300 mb-4">
+                    We will be leveraging the following technologies:
+                </p>
+<div class="bg-slate-100 dark:bg-[#161b22] rounded-lg p-4 font-mono text-sm text-slate-800 dark:text-slate-200 mb-8 border border-slate-200 dark:border-[#233648]">
+<span class="text-purple-600 dark:text-purple-400">const</span> config = {<br/>
+                      framework: <span class="text-green-600 dark:text-green-400">'Next.js'</span>,<br/>
+                      styling: <span class="text-green-600 dark:text-green-400">'Tailwind CSS'</span>,<br/>
+                      editor: <span class="text-green-600 dark:text-green-400">'TipTap'</span><br/>
+                    };
+                </div>
+</div>
+</div>
+<!-- Draggable Handle Simulation -->
+<div class="w-[1px] bg-slate-200 dark:bg-[#233648] hover:bg-primary cursor-col-resize hover:w-1 transition-all z-30 relative flex items-center justify-center group">
+<div class="h-8 w-1 bg-slate-300 dark:bg-[#324d67] rounded-full group-hover:bg-primary transition-colors absolute"></div>
+</div>
+<!-- Right Pane: Markdown Source -->
+<div class="w-1/2 h-full overflow-y-auto bg-slate-50 dark:bg-[#0d1218] flex flex-col font-mono text-sm group">
+<div class="sticky top-0 z-10 px-6 py-2 bg-slate-50/90 dark:bg-[#0d1218]/90 backdrop-blur-sm border-b border-transparent dark:border-transparent group-hover:border-slate-200 dark:group-hover:border-[#233648] transition-colors flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#50667e]">Markdown Source</span>
+<span class="text-[10px] text-slate-400 dark:text-[#50667e]">UTF-8</span>
+</div>
+<div class="px-6 md:px-8 pt-4 pb-20 leading-relaxed text-slate-600 dark:text-[#92adc9]">
+<div class="mb-6">
+<span class="text-blue-600 dark:text-blue-400 font-bold"># Productivity App Design Specification</span>
+</div>
+<div class="mb-6">
+                    This document outlines the core features and design language for the new desktop productivity suite. The goal is to create a <span class="text-yellow-600 dark:text-yellow-500">*distraction-free environment*</span> that empowers users to focus on content creation.
+                </div>
+<div class="mb-6">
+<span class="text-purple-600 dark:text-purple-400">![Dashboard Concept Art](https://images.unsplash.com/photo-1550684848-fac1c5b4e853)</span>
+<br/>
+<span class="text-slate-400 italic">Figure 1.1: Dashboard Concept Art</span>
+</div>
+<div class="mb-4">
+<span class="text-blue-600 dark:text-blue-400 font-bold">## 1. Key Features</span>
+</div>
+<div class="mb-6">
+<span class="text-orange-600 dark:text-orange-400">-</span> **Real-time Sync:** Seamlessly update content across devices.<br/>
+<span class="text-orange-600 dark:text-orange-400">-</span> **Markdown Support:** Full compatibility with standard markdown syntax.<br/>
+<span class="text-orange-600 dark:text-orange-400">-</span> **Offline Mode:** Work without an internet connection.
+                </div>
+<div class="mb-6">
+<span class="text-slate-400">&gt; "Design is not just what it looks like and feels like. Design is how it works."</span>
+</div>
+<div class="mb-4">
+<span class="text-blue-600 dark:text-blue-400 font-bold">## 2. Technical Stack</span>
+</div>
+<div class="mb-4">
+                    We will be leveraging the following technologies:
+                </div>
+<div class="mb-6 text-slate-800 dark:text-slate-300">
+<span class="text-green-600 dark:text-green-500">```javascript</span><br/>
+<span class="text-purple-600 dark:text-purple-400">const</span> config = {<br/>
+                      framework: <span class="text-green-600 dark:text-green-400">'Next.js'</span>,<br/>
+                      styling: <span class="text-green-600 dark:text-green-400">'Tailwind CSS'</span>,<br/>
+                      editor: <span class="text-green-600 dark:text-green-400">'TipTap'</span><br/>
+                    };<br/>
+<span class="text-green-600 dark:text-green-500">```</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Status Bar -->
+<footer class="bg-white dark:bg-[#111a22] border-t border-slate-200 dark:border-[#233648] px-4 py-1.5 flex justify-between items-center text-xs text-slate-500 dark:text-[#50667e] shrink-0 z-20">
+<div class="flex gap-4">
+<span>Words: <strong class="text-slate-700 dark:text-[#92adc9]">245</strong></span>
+<span>Characters: <strong class="text-slate-700 dark:text-[#92adc9]">1,432</strong></span>
+<span>Reading Time: <strong class="text-slate-700 dark:text-[#92adc9]">2 min</strong></span>
+</div>
+<div class="flex gap-4">
+<span class="flex items-center gap-1"><span class="block w-2 h-2 rounded-full bg-green-500"></span> Saved</span>
+<span>Cursor: 24:12</span>
+</div>
+</footer>
+</body></html>
